@@ -1,5 +1,6 @@
 import EditImage from "../../assets/images/edit.svg";
 import DeleteImage from "../../assets/images/delete.svg";
+
 const Transiction = () => {
   return (
     <li className="transaction income">
