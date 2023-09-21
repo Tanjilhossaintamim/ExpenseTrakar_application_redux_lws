@@ -1,33 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postTransaction } from "../../redux/features/transictions/transactionSlice";
+import {
+  editInActive,
+  postTransaction,
+  updateTransaction,
+} from "../../redux/features/transictions/transactionSlice";
 
 const Form = () => {
-  const { isLoading, isError } = useSelector((state) => state.transaction);
+  const { isLoading, isError, editing } = useSelector(
+    (state) => state.transaction
+  );
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
+
+  const reset = () => {
+    setAmount("");
+    setName("");
+    setType("");
+  };
+  const handelCancelEdit = () => {
+    setIsEditMode(false);
+    dispatch(editInActive());
+  };
+  useEffect(() => {
+    if (editing.id) {
+      setIsEditMode(true);
+      const { name: ename, type: etype, amount: eamount } = editing || {};
+      setName(ename);
+      setType(etype);
+      setAmount(eamount);
+    } else {
+      reset();
+    }
+  }, [editing]);
 
   const handelCreate = (e) => {
     e.preventDefault();
     dispatch(postTransaction({ name, type, amount: Number(amount) }));
     if (!isLoading && !isError) {
-      setAmount("");
-      setName("");
-      setType("");
+      reset();
     }
+  };
+
+  const handelEdit = (e) => {
+    e.preventDefault();
+    dispatch(updateTransaction({ id: editing.id, name, type, amount }));
+    dispatch(editInActive());
+    setIsEditMode(false);
   };
   return (
     <div className="form">
       <h3>Add new transaction</h3>
-      <form onSubmit={handelCreate}>
+      <form onSubmit={!isEditMode ? handelCreate : handelEdit}>
         <div className="form-group">
           <label htmlFor="transaction_name">Name</label>
           <input
             type="text"
             name="name"
             placeholder="My Salary"
+            value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
@@ -71,12 +105,16 @@ const Form = () => {
         </div>
 
         <button className="btn" disabled={isLoading}>
-          Add Transaction
+          {isEditMode ? "Update Transaction" : "Add Transaction"}
         </button>
       </form>
       {!isLoading && isError && <p className="error">An error occoured !</p>}
 
-      <button className="btn cancel_edit">Cancel Edit</button>
+      {isEditMode && (
+        <button onClick={handelCancelEdit} className="btn cancel_edit">
+          Cancel Edit
+        </button>
+      )}
     </div>
   );
 };

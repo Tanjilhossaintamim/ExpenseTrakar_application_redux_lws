@@ -163,7 +163,7 @@ label {
 }
 
 .cancel_edit {
-  display: none;
+  /* display: none; */
   margin-top: 10px;
   background-color: #e6425e !important;
 }
@@ -220,4 +220,8 @@ label {
   * {
     font-size: 95% !important;
   }
+}
+
+.error {
+  color: red;
 }

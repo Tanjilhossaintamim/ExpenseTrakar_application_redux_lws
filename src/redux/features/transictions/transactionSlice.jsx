@@ -11,11 +11,20 @@ const initialState = {
   isLoading: false,
   isError: false,
   error: "",
+  editing: {},
 };
 // slice
 const transactionSlice = createSlice({
   name: "transaction",
   initialState,
+  reducers: {
+    editActive: (state, action) => {
+      state.editing = action.payload;
+    },
+    editInActive: (state) => {
+      state.editing = {};
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTransactions.pending, (state) => {
@@ -71,8 +80,10 @@ const transactionSlice = createSlice({
       .addCase(removeTransaction.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
+        console.log(action);
+
         state.transactions = state.transactions.filter(
-          (transaction) => transaction.id != action.payload.id
+          (transaction) => transaction.id != action.meta.arg
         );
       })
       .addCase(removeTransaction.rejected, (state, action) => {
@@ -102,8 +113,8 @@ export const postTransaction = createAsyncThunk(
 
 export const updateTransaction = createAsyncThunk(
   "transaction/updateTransaction",
-  async ({ id, data }) => {
-    const transaction = await editTransaction(id, data);
+  async (data) => {
+    const transaction = await editTransaction(data);
     return transaction;
   }
 );
@@ -115,5 +126,7 @@ export const removeTransaction = createAsyncThunk(
     return transaction;
   }
 );
+
+export const { editActive, editInActive } = transactionSlice.actions;
 
 export default transactionSlice.reducer;

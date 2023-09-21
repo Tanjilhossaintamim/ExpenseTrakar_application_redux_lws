@@ -11,18 +11,19 @@ const Transictions = () => {
   useEffect(() => {
     dispatch(fetchTransactions());
   }, [dispatch]);
+  let content;
+  if (isLoading) content = <p>loading .....</p>;
+  if (!isLoading && isError) content = <p className="error">{error}</p>;
+  if (!isLoading && !isError && transactions.length == 0)
+    content = <p>No Transaction</p>;
+  if (!isLoading && !isError && transactions.length > 0) {
+    content = transactions.map((transaction) => (
+      <Transiction key={transaction.id} transaction={transaction} />
+    ));
+  }
   return (
     <div className="conatiner_of_list_of_transactions">
-      <ul>
-        {isLoading ? (
-          <p>loading....</p>
-        ) : (
-          transactions.map((transaction) => (
-            <Transiction key={transaction.id} transaction={transaction} />
-          ))
-        )}
-        {!isLoading && isError && <p>{error}</p>}
-      </ul>
+      <ul>{content}</ul>
     </div>
   );
 };
