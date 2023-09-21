@@ -10,11 +10,18 @@ cd ExpenseTrakar_application_redux_lws
 ```
 ```
 npm install
+```
+```
 npm run dev
 ```
+
 ## How to Run Server
 ```
 cd server
+```
+```
 npm install
+```
+```
 npm start
 ```
