@@ -80,7 +80,6 @@ const transactionSlice = createSlice({
       .addCase(removeTransaction.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
-        console.log(action);
 
         state.transactions = state.transactions.filter(
           (transaction) => transaction.id != action.meta.arg

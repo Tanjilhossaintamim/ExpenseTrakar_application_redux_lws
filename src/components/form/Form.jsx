@@ -47,7 +47,9 @@ const Form = () => {
 
   const handelEdit = (e) => {
     e.preventDefault();
-    dispatch(updateTransaction({ id: editing.id, name, type, amount }));
+    dispatch(
+      updateTransaction({ id: editing.id, name, type, amount: Number(amount) })
+    );
     dispatch(editInActive());
     setIsEditMode(false);
   };

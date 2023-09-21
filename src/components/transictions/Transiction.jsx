@@ -6,6 +6,7 @@ import {
   editActive,
   removeTransaction,
 } from "../../redux/features/transictions/transactionSlice";
+import thousendsSeparator from "../../utils/thousendSeparator";
 
 const Transiction = ({ transaction }) => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Transiction = ({ transaction }) => {
     <li className={`transaction ${type}`}>
       <p>{name}</p>
       <div className="right">
-        <p>৳ {amount}</p>
+        <p>৳ {thousendsSeparator(amount)}</p>
         <button className="link" onClick={handelEdit}>
           <img className="icon" src={EditImage} />
         </button>

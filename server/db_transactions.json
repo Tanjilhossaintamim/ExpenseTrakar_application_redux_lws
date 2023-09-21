@@ -1,3 +1,16 @@
 {
-  "transactions": []
+  "transactions": [
+    {
+      "name": "Tution Fees",
+      "type": "income",
+      "amount": 5000,
+      "id": 1
+    },
+    {
+      "name": "Shoping Cost",
+      "type": "expense",
+      "amount": 600,
+      "id": 2
+    }
+  ]
 }
