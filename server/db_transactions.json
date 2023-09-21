@@ -11,7 +11,12 @@
       "name": "Family Expenses",
       "type": "expense",
       "amount": 200000
+    },
+    {
+      "name": "Tution Fees",
+      "type": "income",
+      "amount": 400,
+      "id": 3
     }
-    
   ]
 }
